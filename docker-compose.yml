@@ -1,0 +1,16 @@
+version: "3.8"
+
+services:
+  postgres:
+    image: "postgres:latest"
+    # image: "bitnami/postgresql:latest"
+    environment:
+      - POSTGRES_USER=user
+      - POSTGRES_PASSWORD=pass
+      - POSTGRES_DB=rinha
+      - PGPORT=5440
+    ports:
+      - "5440:5432"
+    volumes:
+      - ./init.sql:/docker-entrypoint-initdb.d/init.sql
+    network_mode: host
