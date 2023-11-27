@@ -1,4 +1,4 @@
-\ c rinha;
+\c rinha;
 
 CREATE EXTENSION IF NOT EXISTS "uuid-ossp";
 
@@ -12,11 +12,9 @@ CREATE TABLE people (
     stack text []
 );
 
-CREATE
-OR REPLACE FUNCTION immutable_array_to_string(text [], text) RETURNS text as $ $
-SELECT
-    array_to_string($ 1, $ 2);
-$ $ LANGUAGE sql IMMUTABLE;
+CREATE OR REPLACE FUNCTION immutable_array_to_string(text[], text) 
+    RETURNS text as $$ SELECT array_to_string($1, $2); $$ 
+LANGUAGE sql IMMUTABLE;
 
 -- DROP INDEX idx_term_search IF EXISTS;
 -- CREATE INDEX idx_term_search ON people USING GIN (
