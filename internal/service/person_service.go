@@ -1,3 +1,4 @@
+//go:generate mockery --name PersonService --inpackage --filename=person_service_mock.go --structname=PersonServiceMock
 package service
 
 import (

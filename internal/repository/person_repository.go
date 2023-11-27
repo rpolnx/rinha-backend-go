@@ -1,3 +1,4 @@
+//go:generate mockery --name PersonRepository --inpackage --filename=person_repository_mock.go --structname=PersonRepositoryMock
 package repository
 
 import (

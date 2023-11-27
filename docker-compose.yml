@@ -2,8 +2,8 @@ version: "3.8"
 
 services:
   postgres:
-    # image: "postgres:16.1-bullseye"
-    image: "postgres:11.22-bullseye"
+    image: "postgres:14.10-bullseye"
+    # image: "postgres:11.22-bullseye"
     # image: "bitnami/postgresql:latest"
     environment:
       - POSTGRES_USER=user
