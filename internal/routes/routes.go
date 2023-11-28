@@ -1,29 +1,22 @@
-package routes
+package route
 
 import (
 	"github.com/gin-gonic/gin"
 	"github.com/rpolnx/rinha-backend-go/internal/controller"
+	"github.com/samber/do"
 )
 
-type RouterBuilder struct {
-	server           *gin.Engine
-	personController controller.PersonController
-}
+func RegisterRoutes(injector *do.Injector) {
+	server := do.MustInvoke[*gin.Engine](injector)
 
-func (r RouterBuilder) AppendRoutes() {
-	pessoas := r.server.Group("/pessoas")
+	personController := do.MustInvoke[controller.PersonController](injector)
+
+	pessoas := server.Group("/pessoas")
 	{
-		pessoas.POST("", r.personController.CreatePerson)
-		pessoas.GET(":id", r.personController.GetPersonById)
-		pessoas.GET("", r.personController.GetAllPeople)
+		pessoas.POST("", personController.CreatePerson)
+		pessoas.GET(":id", personController.GetPersonById)
+		pessoas.GET("", personController.GetAllPeople)
 	}
 
-	r.server.GET("/contagem-pessoas", r.personController.CountAllPeople)
-}
-
-func NewRouterBuilder(server *gin.Engine, personController controller.PersonController) *RouterBuilder {
-	return &RouterBuilder{
-		server,
-		personController,
-	}
+	server.GET("/contagem-pessoas", personController.CountAllPeople)
 }

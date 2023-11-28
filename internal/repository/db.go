@@ -4,12 +4,15 @@ import (
 	"fmt"
 
 	configs "github.com/rpolnx/rinha-backend-go/internal/config"
+	"github.com/samber/do"
 	"gorm.io/driver/postgres"
 	"gorm.io/gorm"
 	"gorm.io/gorm/logger"
 )
 
-func InitializeDb(cfg configs.EnvConfig) (*gorm.DB, error) {
+func InitializeDb(injector *do.Injector) (*gorm.DB, error) {
+	cfg := do.MustInvoke[*configs.EnvConfig](injector)
+
 	dsn := fmt.Sprintf("host=%s user=%s password=%s dbname=%s port=%d sslmode=%s TimeZone=%s",
 		cfg.DbHost,
 		cfg.DbUser,

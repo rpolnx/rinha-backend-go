@@ -9,6 +9,7 @@ import (
 	"github.com/google/uuid"
 	"github.com/rpolnx/rinha-backend-go/internal/dto"
 	"github.com/rpolnx/rinha-backend-go/internal/service"
+	"github.com/samber/do"
 )
 
 type PersonController interface {
@@ -48,7 +49,6 @@ func (p personController) CreatePerson(c *gin.Context) {
 		c.Status(http.StatusUnprocessableEntity)
 		return
 	}
-	
 
 	c.Status(201)
 }
@@ -111,8 +111,10 @@ func (p personController) CountAllPeople(c *gin.Context) {
 	c.String(200, strconv.FormatInt(int64(value), 10))
 }
 
-func NewPersonController(svc service.PersonService) PersonController {
+func NewPersonController(injector *do.Injector) (PersonController, error) {
+	personService := do.MustInvoke[service.PersonService](injector)
+
 	return &personController{
-		svc,
-	}
+		personService,
+	}, nil
 }

@@ -5,6 +5,7 @@ import (
 	"github.com/google/uuid"
 	"github.com/rpolnx/rinha-backend-go/internal/model"
 	"github.com/rpolnx/rinha-backend-go/internal/repository"
+	"github.com/samber/do"
 )
 
 type PersonService interface {
@@ -36,6 +37,8 @@ func (p personService) CountAllPeople() (int64, error) {
 	return p.personRepo.CountAllDbPeople()
 }
 
-func NewPersonService(personRepo repository.PersonRepository) PersonService {
-	return &personService{personRepo}
+func NewPersonService(injector *do.Injector) (PersonService, error) {
+	personRepo := do.MustInvoke[repository.PersonRepository](injector)
+
+	return &personService{personRepo}, nil
 }

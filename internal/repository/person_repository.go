@@ -4,6 +4,7 @@ package repository
 import (
 	"github.com/google/uuid"
 	"github.com/rpolnx/rinha-backend-go/internal/model"
+	"github.com/samber/do"
 	"gorm.io/gorm"
 )
 
@@ -58,6 +59,8 @@ func (repo personRepository) CountAllDbPeople() (int64, error) {
 	return count, result.Error
 }
 
-func NewPersonRepository(db *gorm.DB) PersonRepository {
-	return &personRepository{db}
+func NewPersonRepository(injector *do.Injector) (PersonRepository, error) {
+	cfg := do.MustInvoke[*gorm.DB](injector)
+
+	return &personRepository{cfg}, nil
 }
